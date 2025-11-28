@@ -12,7 +12,6 @@ show_menu() {
     echo "2) 파일 분류"
     echo "3) 마감 임박/완료 분류"
     echo "4) 완료 과제 압축"
-    echo "5) 전체 실행"
     echo "0) 종료"
     echo "================================"
     echo -n "번호를 선택하세요: "
@@ -27,12 +26,6 @@ while true; do
         2) classify_files ;;
         3) sort_deadlines ;;
         4) archive_completed ;;
-        5) 
-            create_folders
-            classify_files
-            sort_deadlines
-            archive_completed
-            ;;
         0) echo "프로그램을 종료합니다."; exit ;;
         *) echo "잘못된 입력입니다. 다시 선택해주세요." ;;
     esac
