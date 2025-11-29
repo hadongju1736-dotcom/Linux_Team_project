@@ -10,11 +10,18 @@ echo "========================="
 read -p "메뉴 선택: " choice
 
 case $choice in
-    1) ./make_assignment_folder.sh;;
-    2) ./classify_files.sh;;
-    3) ./listof_dealine_assignments.sh;;
-    4) ./compress_finished_assignments.sh;;
-    0) exit 0;;
-    *) echo "유효하지 않은 선택입니다";;
+1) 
+    ./make_assignment_folder.sh;;
+2) 
+    ./classify_files.sh;;
+3) 
+    ./listof_dealine_assignments.sh;;
+4) 
+    ./compress_finished_assignments.sh;;
+0) 
+    
+    exit 0;;
+*) 
+    echo "유효하지 않은 선택입니다";;
 esac
 
