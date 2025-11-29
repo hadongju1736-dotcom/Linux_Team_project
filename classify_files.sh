@@ -44,5 +44,5 @@ for FILE in "$ASSIGNMENT_ROOT/$DIR"/*; do
     echo "[완료] $(basename "$FILE") → $DEST"
 done
 
-# 3️⃣ 완료 메시지
+# 완료 메시지
 echo "=== 모든 파일 분류 완료 ==="
