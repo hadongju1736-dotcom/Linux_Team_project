@@ -32,7 +32,7 @@ normalize_date() {
 
 # ===== 메인 =====
 echo "=== 새 과제 폴더 만들기 ==="
-read -p "과제(과목) 이름을 입력하세요: " NAME
+read -p "과제 이름을 입력하세요: " NAME
 if [[ -z "${NAME// }" ]]; then
     echo "[오류] 과제 이름은 비어 있을 수 없습니다."
     exit 1
