@@ -11,7 +11,7 @@ read -p "메뉴 선택: " choice
 
 case $choice in
 1) 
-    ./make_assignment_folder.sh;;
+    ./create_folders.sh;;
 2) 
     ./classify_files.sh;;
 3) 
@@ -24,4 +24,6 @@ case $choice in
 *) 
     echo "유효하지 않은 선택입니다";;
 esac
+
+# 폴더 이름은 가제로 정함
 
