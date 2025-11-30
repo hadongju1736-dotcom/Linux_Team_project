@@ -30,49 +30,57 @@ normalize_date() {
     fi
 }
 
-# ===== 메인 =====
-echo "=== 새 과제 폴더 만들기 ==="
-read -p "과제 이름을 입력하세요: " NAME
-if [[ -z "${NAME// }" ]]; then
-    echo "[오류] 과제 이름은 비어 있을 수 없습니다."
-    exit 1
-fi
-
-read -p "마감 날짜를 입력하세요 (예: 2025-03-21 또는 2025-3-21): " RAW_DEADLINE
-
-# 정규화 시도
-NORMALIZED_DEADLINE=$(normalize_date "$RAW_DEADLINE") || {
-    rc=$?
-    if [[ $rc -eq 2 ]]; then
+# ** create_folders 함수 **
+create_folders() {
+    echo "=== 새 과제 폴더 만들기 ==="
+    read -p "과제 이름을 입력하세요: " NAME
+    if [[ -z "${NAME// }" ]]; then
+        echo "[오류] 과제 이름은 비어 있을 수 없습니다."
         exit 1
     fi
-    echo "[오류] 날짜 형식이 잘못되었습니다. 예: 2025-03-21 또는 2025-3-21"
-    exit 1
+
+    read -p "마감 날짜를 입력하세요 (예: 2025-03-21 또는 2025-3-21): " RAW_DEADLINE
+
+    # 정규화 시도
+    NORMALIZED_DEADLINE=$(normalize_date "$RAW_DEADLINE") || {
+        rc=$?
+        if [[ $rc -eq 2 ]]; then
+            exit 1
+        fi
+        echo "[오류] 날짜 형식이 잘못되었습니다. 예: 2025-03-21 또는 2025-3-21"
+        exit 1
+    }
+
+    # 루트 폴더 존재 확인 및 생성
+    mkdir -p "$ASSIGNMENT_ROOT"
+    # urgent 폴더(마감 임박 모음)도 미리 만들어 둠 (비어 있음)
+    mkdir -p "$URGENT_DIR"
+
+    # 폴더명 및 경로
+    FOLDER_NAME="${NORMALIZED_DEADLINE}_${NAME}"
+    TARGET_DIR="$ASSIGNMENT_ROOT/$FOLDER_NAME"
+
+    # 중복 체크
+    if [[ -e "$TARGET_DIR" ]]; then
+        echo "[오류] 이미 존재하는 과제(파일 또는 폴더)가 있습니다: $TARGET_DIR"
+        exit 1
+    fi
+
+    # 폴더 생성
+    mkdir -p "$TARGET_DIR/src" "$TARGET_DIR/docs"
+
+    echo "완료! 생성된 과제 폴더:"
+    echo "$TARGET_DIR"
+    echo ""
+    echo "기본 구조:"
+    echo " ├─ src/"
+    echo " └─ docs/"
+    echo ""
+    echo "참고: 마감 임박 과제는 다음 폴더로 모을 계획입니다: $URGENT_DIR"
 }
 
-# 루트 폴더 존재 확인 및 생성
-mkdir -p "$ASSIGNMENT_ROOT"
-# urgent 폴더(마감 임박 모음)도 미리 만들어 둠 (비어 있음)
-mkdir -p "$URGENT_DIR"
 
-# 폴더명 및 경로
-FOLDER_NAME="${NORMALIZED_DEADLINE}_${NAME}"
-TARGET_DIR="$ASSIGNMENT_ROOT/$FOLDER_NAME"
 
-# 중복 체크
-if [[ -e "$TARGET_DIR" ]]; then
-    echo "[오류] 이미 존재하는 과제(파일 또는 폴더)가 있습니다: $TARGET_DIR"
-    exit 1
-fi
 
-# 폴더 생성
-mkdir -p "$TARGET_DIR/src" "$TARGET_DIR/docs"
 
-echo "완료! 생성된 과제 폴더:"
-echo "$TARGET_DIR"
-echo ""
-echo "기본 구조:"
-echo " ├─ src/"
-echo " └─ docs/"
-echo ""
-echo "참고: 마감 임박 과제는 다음 폴더로 모을 계획입니다: $URGENT_DIR"
+
