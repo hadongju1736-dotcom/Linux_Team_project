@@ -12,6 +12,7 @@ archive_completed() {
     # ===== 설정 =====
     ASSIGNMENT_ROOT="$HOME/AssignmentManager/assignments"
     OUTPUT_DIR="$ASSIGNMENT_ROOT/compressed"  # 압축 파일 저장 폴더
+    URGENT_DIR="$ASSIGNMENT_ROOT/urgent"
 
     # 루트 폴더 존재 확인
     if [[ ! -d "$ASSIGNMENT_ROOT" ]]; then
@@ -36,10 +37,12 @@ archive_completed() {
             continue
         fi
 
-        TARGET_DIR="$ASSIGNMENT_ROOT/$DIR"
-
-        # 폴더 존재 여부 체크
-        if [[ ! -d "$TARGET_DIR" ]]; then
+         # ASSIGNMENT_ROOT 또는 URGENT_DIR 안에 폴더가 있는지 확인
+        if [[ -d "$ASSIGNMENT_ROOT/$DIR" ]]; then
+            TARGET_DIR="$ASSIGNMENT_ROOT/$DIR"
+        elif [[ -d "$URGENT_DIR/$DIR" ]]; then
+            TARGET_DIR="$URGENT_DIR/$DIR"
+        else
             echo "[오류] 폴더가 존재하지 않습니다. 다시 입력해주세요."
             continue
         fi

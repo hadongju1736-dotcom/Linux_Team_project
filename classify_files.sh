@@ -4,6 +4,7 @@ classify_files() {
     echo "=== 과제 파일 분류 ==="
 
     ASSIGNMENT_ROOT="$HOME/AssignmentManager/assignments"
+    URGENT_DIR="$ASSIGNMENT_ROOT/urgent"
 
     if [[ ! -d "$ASSIGNMENT_ROOT" ]]; then
         echo "[오류] 과제 루트 폴더가 존재하지 않습니다: $ASSIGNMENT_ROOT"
@@ -22,7 +23,11 @@ classify_files() {
             echo "[오류] 폴더 이름을 입력하세요."
             continue
         fi
-        if [[ ! -d "$ASSIGNMENT_ROOT/$DIR" ]]; then
+        if [[ -d "$ASSIGNMENT_ROOT/$DIR" ]]; then
+            TARGET_DIR="$ASSIGNMENT_ROOT/$DIR"
+        elif [[ -d "$URGENT_DIR/$DIR" ]]; then
+            TARGET_DIR="$URGENT_DIR/$DIR"
+        else
             echo "[오류] 폴더가 존재하지 않습니다. 다시 입력해주세요."
             continue
         fi
@@ -30,24 +35,24 @@ classify_files() {
     done
 
     # 분류 기준 및 폴더 생성
-    for FILE in "$ASSIGNMENT_ROOT/$DIR"/*; do
+    for FILE in "$TARGET_DIR"/*; do
         [[ ! -f "$FILE" ]] && continue
         EXT="${FILE##*.}"
         case "$EXT" in
             c|cpp|py|java|sh)
-                DEST="$ASSIGNMENT_ROOT/$DIR/src"
+                DEST="$TARGET_DIR/src"
                 ;;
             pdf|doc|docx|hwpx|txt)
-                DEST="$ASSIGNMENT_ROOT/$DIR/docs"
+                DEST="$TARGET_DIR/docs"
                 ;;
             jpg|JPG|jpeg|JPEG|png|PNG|gif|bmp|svg)
-                DEST="$ASSIGNMENT_ROOT/$DIR/images"
+                DEST="$TARGET_DIR/images"
                 ;;
             csv|xlsx|json|xml)
-                DEST="$ASSIGNMENT_ROOT/$DIR/data"
+                DEST="$TARGET_DIR/data"
                 ;;
             *)
-                DEST="$ASSIGNMENT_ROOT/$DIR/others"
+                DEST="$TARGET_DIR/others"
                 ;;
         esac
         mkdir -p "$DEST"
