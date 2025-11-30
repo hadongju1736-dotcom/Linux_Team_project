@@ -12,10 +12,24 @@ echo "=== 완료된 과제 폴더 압축 ==="
 ASSIGNMENT_ROOT="$HOME/AssignmentManager/assignments"
 OUTPUT_DIR="$ASSIGNMENT_ROOT/compressed"  # 압축 파일 저장 폴더
 
+# 루트 폴더 존재 확인
+if [[ ! -d "$ASSIGNMENT_ROOT" ]]; then
+    echo "[오류] 과제 루트 폴더가 존재하지 않습니다: $ASSIGNMENT_ROOT"
+    echo "폴더를 먼저 생성해주세요."
+    exit 1
+fi
+
+# 압축 파일 저장 폴더 생성 (없으면 자동 생성)
+mkdir -p "$OUTPUT_DIR"
 
 # 압축할 폴더 입력 / 존재 여부 체크
 while true; do
-    read -p "압축할 과제 폴더 이름을 입력: " DIR
+    read -p "압축할 과제 폴더 이름을 입력(종료하려면 'q' 또는 'Q') : " DIR
+    if [[ "$DIR" == "q" || "$DIR" == "Q" ]]; then
+        echo "프로그램을 종료합니다."
+        exit 0
+    fi
+
     if [[ -z "$DIR" ]]; then
         echo "[오류] 폴더 이름을 입력하세요."
         continue
