@@ -19,13 +19,13 @@ deadline_checker() {
 
     if ! is_gnu_date; then
     echo "ERROR: GNU date가 필요합니다. macOS라면 'brew install coreutils' 후 gdate 사용하도록 스크립트 수정 필요."
-    exit 1
+    return 1
     fi
 
     # 루트 폴더 존재 확인하기
     if [[ ! -d "$ASSIGNMENT_ROOT" ]]; then
     echo "[오류] 과제 폴더 루트가 존재하지 않습니다: $ASSIGNMENT_ROOT"
-    exit 1
+    return 1
     fi
 
     mkdir -p "$URGENT_DIR"

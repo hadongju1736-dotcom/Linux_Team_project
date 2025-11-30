@@ -36,7 +36,7 @@ create_folders() {
     read -p "과제 이름을 입력하세요: " NAME
     if [[ -z "${NAME// }" ]]; then
         echo "[오류] 과제 이름은 비어 있을 수 없습니다."
-        exit 1
+        return 1
     fi
 
     read -p "마감 날짜를 입력하세요 (예: 2025-03-21 또는 2025-3-21): " RAW_DEADLINE
@@ -45,10 +45,10 @@ create_folders() {
     NORMALIZED_DEADLINE=$(normalize_date "$RAW_DEADLINE") || {
         rc=$?
         if [[ $rc -eq 2 ]]; then
-            exit 1
+            return 1
         fi
         echo "[오류] 날짜 형식이 잘못되었습니다. 예: 2025-03-21 또는 2025-3-21"
-        exit 1
+        return 1
     }
 
     # 루트 폴더 존재 확인 및 생성
@@ -63,7 +63,7 @@ create_folders() {
     # 중복 체크
     if [[ -e "$TARGET_DIR" ]]; then
         echo "[오류] 이미 존재하는 과제(파일 또는 폴더)가 있습니다: $TARGET_DIR"
-        exit 1
+        return 1
     fi
 
     # 폴더 생성
