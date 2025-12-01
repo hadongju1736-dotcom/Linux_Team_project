@@ -3,7 +3,7 @@
 # 기능 파일 불러오기
 source ./create_folders.sh
 source ./classify_files.sh
-source ./sort_deadlines.sh
+source ./deadline_checker.sh
 source ./archive_completed.sh
 
 show_menu() {
@@ -24,7 +24,7 @@ while true; do
     case $choice in
         1) create_folders ;;
         2) classify_files ;;
-        3) sort_deadlines ;;
+        3) deadline_checker ;;
         4) archive_completed ;;
         0) echo "프로그램을 종료합니다."; exit ;;
         *) echo "잘못된 입력입니다. 다시 선택해주세요." ;;
