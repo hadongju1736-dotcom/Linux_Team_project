@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+
 
 # ===== 설정 =====
 ASSIGNMENT_ROOT="$HOME/AssignmentManager/assignments"

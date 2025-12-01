@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+
 
 # ===== 설정: 루트 경로 (원하면 변경) =====
 ASSIGNMENT_ROOT="$HOME/AssignmentManager/assignments"
